@@ -1,0 +1,149 @@
+<h1><!Doctype html>
+<html lang="en">
+<head>
+    <!--Mis archivos-->
+    <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+    <!--librerias que voy a memorizar o saber-->
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    <!--LLamando con links a códigos-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>TRABAJO DE LA CLASE FINAL</title>
+</head>
+<body>
+    <div>
+    <!-- ...existing code... -->
+    <img src="../static/images/Imagendelcentro.jpg" style="transform: none ; width:100% ; margin-left: 0px;">
+    <h1>Mapa de Calidad del Aire Local</h1>
+</div>
+    <h1>Bienvenidos</h1>	
+<!-- Mi avance del mapa <img src="../static/images/Imagendelcentro.jpg" style="transform: none ; width:100% ; margin-left: 0px;">
+    <h2>Escoja un lugar</h2>
+ 
+<iframe width="900" height="600"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.123456789012!2d-77.0428!3d-12.0464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c9a123456789%3A0x123456789abcdef0!2sLima%2C%20Per%C3%BA!5e0!3m2!1sen!2sus!4v1616161616161"
+        width="900"
+        height="600"
+        style="margin-left: 290; border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>-->
+<div id="botones">
+    <a href="http://127.0.0.1:5000/upload" style="font-size: 40px;border-radius: 20px; background-color:yellowgreen; color: black; width: 100px; height:100px;">Cargar imagenes</a>
+    <a href="http://127.0.0.1:5000/random_fact" style="font-size: 40px;border-radius: 20px; background-color:yellowgreen; color: black; width: 100px; height:100px;">Factores Aleatorios</a>
+    <a href="http://" style="font-size: 40px;border-radius: 20px; background-color:yellowgreen; color: black; width: 100px; height:100px;">Inicio</a>
+</div>
+
+<div style="text-align: center;">
+    <!-- Mapa dinámico usando la variable 'location' -->
+    <iframe width="900" height="600" id="mapacentro"
+        src="https://www.google.com/maps?q={{ location }}&output=embed"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <!-- ...existing code... -->
+    <iframe
+        src="https://www.meteoblue.com/en/weather/widget/daily/{{numeral}}?geoloc=fixed&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=1&maxtemperature=1&mintemperature=1&windspeed=1&windgust=0&winddirection=1&uv=0&humidity=0&precipitation=1&precipitationprobability=1&spot=1&pressure=0&layout=light"
+        frameborder="0" 
+        scrolling="NO" 
+        allowtransparency="true" 
+        sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox" 
+        id="mapa">
+    </iframe>
+        <!--Que la variable sea lugar y que encierre el nombre del país y que se pueda actualizar escribiendo en una barra-->
+    <form action="/set_location" method="post" >
+        <label for="location">Escribe la ubicación que quiere buscar:</label>
+        <input type="text" id="location" name="location" style="border-radius: 20px;" required>
+        <button type="submit" style="font-size: 20px;border-radius: 10px; background-color:rgb(151, 50, 205); color: black; width: 100px; height:50px;">Buscar!!!</button>
+</form>
+</div>
+</body>
+<footer>
+    <p>Derechos reservados 2025-####</p>
+</footer>
+</html>
+<style>
+body{
+    background-color: #25d5e2 ;
+ /*ERAN ESTOS para subir arriba a los cuadrados*/
+    margin: 0px;
+    padding: 0px;
+}
+h1{
+    background-color: rgb(7, 6, 101);
+    color: rgb(230, 241, 17);
+    font-size: 50px;
+    text-align: center;
+    animation: color-change 5s infinite;
+    margin: 0px;
+    padding: 0px;
+}
+p{
+    font-size: 18px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+img{
+    height: 200px;
+   
+    
+}
+header{
+    margin: 0px;
+    padding: 0px;
+}
+img:hover{
+    transform: scale(2,2);
+}
+
+@keyframes color-change{
+    0%{
+        background-color: rgb(227, 10, 10);
+    }
+    25%{
+        background-color: rgb(13, 117, 18);
+    }
+    50%{
+        background-color: rgb(5, 13, 78);
+    }
+    60%{
+        background-color: rgb(144, 10, 227);
+    }
+    80%{
+        background-color: rgb(7, 242, 136);
+    }
+    100%{
+        background-color: rgb(227, 10, 10);
+    }
+}
+#mapa{
+    width: 400px;
+    height: 450px;
+    
+}
+#mapacentro{
+    text-align: center;
+    width: 700px;
+    height: 500px;;
+    font-family: Inter;
+
+    font-size: 50px;;
+}#botones{
+    text-align: none;
+    font-family: extra;
+    background-color: rgb(120, 120, 120);
+}label{
+    font-size: 30px;
+}input{
+    font-size: 25px;
+}a{
+    font-family: Lucida Sans Regular;
+    text-decoration: none;
+}
+</style>
