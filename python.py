@@ -9,9 +9,37 @@ from werkzeug.utils import secure_filename
 import random
 import os
 
+UPLOAD_FOLDER = os.path.abspath("./uploads/")
+
+def allowed_file(filename):
+
+    return "." in filename and filename.rsplit(".", 1)[1]
 
 
+app = Flask(__name__)
+location = "lima, Perú"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
+
+@app.route("/ProyectoFinal", methods=["GET"])
+def Index():
+    return render_template("casa.html", location=location)
+
+
+@app.route("/set_location", methods=["POST"])
+def set_location():
+    global location
+    location = request.form["location"]
+    
+
+    return redirect("/ProyectoFinal")
+
+#INICIAR EL MOTOR DE VOZ
+def speak(text):
+    engine = pyttsx3.init() # Inicializamos el motor de vox
+    engine.setProperty('rate', 150)#Le damos una velocidad
+    engine.say(text)
+    engine.runAndWait()
 
 facts_list = [
     "La mayoría de las personas que sufren adicción tecnológica experimentan un fuerte estrés cuando se encuentran fuera del área de cobertura de la red o no pueden utilizar sus dispositivos",
@@ -22,35 +50,6 @@ facts_list = [
     "Elon Musk también aboga por la regulación de las redes sociales y la protección de los datos personales de los usuarios. Afirma que las redes sociales recopilan una enorme cantidad de información sobre nosotros, que luego puede utilizarse para manipular nuestros pensamientos y comportamientos",
     "Las redes sociales tienen aspectos positivos y negativos, y debemos ser conscientes de ambos cuando utilicemos estas plataformas"
     ]
-
-
-app = Flask(__name__)
-location = "lima, Perú"
-
-@app.route("/ProyectoFinal", methods=["GET"])
-def Index():
-    return render_template("casa.html", location=location)
-
-@app.route("/set_location", methods=["POST"])
-def set_location():
-    global location
-    location = request.form["location"]
-    
-
-
-    return redirect("/ProyectoFinal")
-
-
-
-
-#INICIAR EL MOTOR DE VOZ
-def speak(text):
-    engine = pyttsx3.init() # Inicializamos el motor de vox
-    engine.setProperty('rate', 150)#Le damos una velocidad
-    engine.say(text)
-    engine.runAndWait()
-
-
 #Suelta una oración aleatoria
 @app.route("/random_fact")
 def facts():
@@ -62,10 +61,30 @@ def facts():
         <a href ="/sorpresa">Ruta Sorpresa</a>
         '''
 
+#APP ROUTE para seleccionar imagen en la página y imágen de la p+agina
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+    if request.method == "POST":
+        if "ourfile" not in request.files:
+            return "The form has no file part."
+        f = request.files["ourfile"]
+        if f.filename == "":
+            return "No file selected!No seleciono archivo o carpeta"
+        if f and allowed_file(f.filename):
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            return redirect(url_for("get_file", filename=filename))
+        return "File not allowed|Archivo no permitido"
+    
+    return """
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="ourfile">
+<input type="submit" value="UPLOAD">
+</form>
+"""
+@app.route("/uploads/<filename>")
+def get_file(filename):
 
-
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 if __name__ == "__main__":
-    app.run(debug=True)
-    
-
-    
+    app.run(debug=True) 
